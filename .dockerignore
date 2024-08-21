@@ -1,0 +1,27 @@
+# Ignorar node_modules para que no se copien a la imagen
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignorar archivos de Git
+.git
+.gitignore
+
+# Ignorar archivos de entorno
+.env
+
+# Ignorar logs
+*.log
+
+# Ignorar archivos temporales
+.tmp
+*.swp
+
+# Ignorar Dockerfile y docker-compose.yaml
+Dockerfile
+docker-compose.yaml
+
+# Ignorar cualquier archivo de configuración o cache del editor
+.vscode/
+.idea/
+.DS_Store
