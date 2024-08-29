@@ -1,7 +1,8 @@
 require('dotenv').config();  // Carga las variables de entorno
 
+const mongoose = require('mongoose');
 const express = require('express');
-const db = require('./db');
+const db = require('./db');  // Asegúrate de que la ruta es correcta
 
 const app = express();
 const port = process.env.PORT || 3000;  // Usar el puerto definido en .env, o 3000 por defecto
@@ -9,18 +10,19 @@ const port = process.env.PORT || 3000;  // Usar el puerto definido en .env, o 30
 // Conexión a la base de datos
 db.connectToDatabase();
 
-app.get('/', (req, res) => {
-    res.send('¡Hola Mundo desde Node.js y Docker!');
-});
-
-app.get('/health', async (req, res) => {
-    try {
-        await mongoose.connection.db.admin().ping();
-        res.status(200).send('MongoDB está funcionando correctamente.');
-    } catch (error) {
-        res.status(500).send('Error al conectar con MongoDB');
+// Middleware para manejar errores de conexión a la base de datos
+app.use((req, res, next) => {
+    if (mongoose.connection.readyState === 0) {
+        res.status(500).send('No se puede conectar a la base de datos');
+    } else {
+        next();
     }
 });
+
+app.get('/', (req, res) => {
+    res.send('¡Hola soy el alumno Christian Reyes y esta es mi aplicación!');
+});
+
 
 app.listen(port, () => {
     console.log(`Aplicación escuchando en http://localhost:${port}`);
